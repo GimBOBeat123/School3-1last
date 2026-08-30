@@ -3,40 +3,40 @@ using UnityEngine;
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// °ÔÀÓÀÇ ¸ğµç ¾ÆÀÌÅÛ ±âº» Å¬·¡½º
+    /// ë„ë©”ì¸
+    /// ê²Œì„ì˜ ëª¨ë“  ì•„ì´í…œ ê¸°ë³¸ í´ë˜ìŠ¤
     /// </summary>
     [System.Serializable]
     public class Item
     {
         /// <summary>
-        /// ¾ÆÀÌÅÛ °íÀ¯ ID
+        /// ì•„ì´í…œ ê³ ìœ  ID
         /// </summary>
         public string ItemId { get; set; }
 
         /// <summary>
-        /// ¾ÆÀÌÅÛ ÀÌ¸§
+        /// ì•„ì´í…œ ì´ë¦„
         /// </summary>
         public string ItemName { get; set; }
 
         /// <summary>
-        /// ¾ÆÀÌÅÛ ¼³¸í
+        /// ì•„ì´í…œ ì„¤ëª…
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// ¼ö·®
+        /// ìˆ˜ëŸ‰
         /// </summary>
         public int Quantity { get; set; }
 
         /// <summary>
-        /// µå·Ó À§Ä¡
+        /// ë“œë¡­ ìœ„ì¹˜
         /// </summary>
         [System.NonSerialized]
         public Vector3 DropPosition = Vector3.zero;
 
         /// <summary>
-        /// ¾ÆÀÌÅÛ »ı¼º
+        /// ì•„ì´í…œ ìƒì„±
         /// </summary>
         public Item(string id, string name, string desc = "")
         {
@@ -47,7 +47,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ¾ÆÀÌÅÛ ¼³¸í ¹İÈ¯
+        /// ì•„ì´í…œ ì„¤ëª… ë°˜í™˜
         /// </summary>
         public virtual string GetDescription()
         {

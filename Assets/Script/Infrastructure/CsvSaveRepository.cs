@@ -6,17 +6,17 @@ using UnityEngine;
 namespace Infrastructure
 {
     /// <summary>
-    /// ÀÎÇÁ¶ó CSV ÀúÀå
-    /// °ÔÀÓ µ¥ÀÌÅÍ¸¦ CSV Çü½ÄÀ¸·Î ÀúÀå ¹× ·Îµå
-    /// DI¸¦ ÅëÇØ JsonSaveRepository¿Í ±³Ã¼ °¡´É
+    /// ì¸í”„ë¼ CSV ì €ì¥
+    /// ê²Œì„ ë°ì´í„°ë¥¼ CSV í˜•ì‹ìœ¼ë¡œ ì €ì¥ ë° ë¡œë“œ
+    /// DIë¥¼ í†µí•´ JsonSaveRepositoryì™€ êµì²´ ê°€ëŠ¥
     /// </summary>
     public class CsvSaveRepository : ISaveRepository
     {
         private readonly string path;
 
         /// <summary>
-        /// CSV ÀúÀå¼Ò »ı¼º
-        /// ÀúÀå °æ·Î ¼³Á¤
+        /// CSV ì €ì¥ì†Œ ìƒì„±
+        /// ì €ì¥ ê²½ë¡œ ì„¤ì •
         /// </summary>
         public CsvSaveRepository()
         {
@@ -24,8 +24,8 @@ namespace Infrastructure
         }
 
         /// <summary>
-        /// °ÔÀÓ µ¥ÀÌÅÍ¸¦ CSV·Î ÀúÀå
-        /// Çü½Ä: °ø°İ·Â,°ñµå,¶ó¿îµå
+        /// ê²Œì„ ë°ì´í„°ë¥¼ CSVë¡œ ì €ì¥
+        /// í˜•ì‹: ê³µê²©ë ¥,ê³¨ë“œ,ë¼ìš´ë“œ
         /// </summary>
         public void Save(GameData data)
         {
@@ -36,8 +36,8 @@ namespace Infrastructure
         }
 
         /// <summary>
-        /// CSV ÆÄÀÏ¿¡¼­ °ÔÀÓ µ¥ÀÌÅÍ ·Îµå
-        /// ÆÄÀÏÀÌ ¾øÀ¸¸é ±âº»°ª ¹İÈ¯
+        /// CSV íŒŒì¼ì—ì„œ ê²Œì„ ë°ì´í„° ë¡œë“œ
+        /// íŒŒì¼ì´ ì—†ìœ¼ë©´ ê¸°ë³¸ê°’ ë°˜í™˜
         /// </summary>
         public GameData Load()
         {

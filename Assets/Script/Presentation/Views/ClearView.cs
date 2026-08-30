@@ -3,8 +3,8 @@ using UnityEngine;
 namespace Presentation.Views
 {
     /// <summary>
-    /// ºä
-    /// °ÔÀÓ ¿Ï·á ½Ã Å¬¸®¾î ÆĞ³ÎÀ» Ç¥½Ã
+    /// ë·°
+    /// ê²Œì„ ì™„ë£Œ ì‹œ í´ë¦¬ì–´ íŒ¨ë„ì„ í‘œì‹œ
     /// </summary>
     public class ClearView : MonoBehaviour
     {
@@ -17,7 +17,7 @@ namespace Presentation.Views
         }
 
         /// <summary>
-        /// Å¬¸®¾î ÆĞ³ÎÀ» È­¸é¿¡ Ç¥½Ã
+        /// í´ë¦¬ì–´ íŒ¨ë„ì„ í™”ë©´ì— í‘œì‹œ
         /// </summary>
         public void Show()
         {

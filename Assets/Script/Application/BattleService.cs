@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using UniRx;
 using UnityEngine;
 

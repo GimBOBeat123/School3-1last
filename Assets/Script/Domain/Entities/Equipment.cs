@@ -4,28 +4,28 @@ using UnityEngine;
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// ÇöÀç ÀåÂøÇÑ ¹«±â ¹× Ãß°¡ ´É·Â °ü¸®
+    /// ë„ë©”ì¸
+    /// í˜„ì¬ ì¥ì°©í•œ ë¬´ê¸° ë° ì¶”ê°€ ëŠ¥ë ¥ ê´€ë¦¬
     /// </summary>
     public class Equipment
     {
         /// <summary>
-        /// ÇöÀç ÀåÂøÇÑ ¹«±â
+        /// í˜„ì¬ ì¥ì°©í•œ ë¬´ê¸°
         /// </summary>
         public ReactiveProperty<Weapon> EquippedWeapon = new();
 
         /// <summary>
-        /// ¹«±â·ÎºÎÅÍ Ãß°¡µÇ´Â °ø°İ·Â
+        /// ë¬´ê¸°ë¡œë¶€í„° ì¶”ê°€ë˜ëŠ” ê³µê²©ë ¥
         /// </summary>
         public ReactiveProperty<int> AdditionalAttack = new(0);
 
         /// <summary>
-        /// ÀåÂø ¹«±â ¿©ºÎ
+        /// ì¥ì°© ë¬´ê¸° ì—¬ë¶€
         /// </summary>
         public bool HasEquippedWeapon => EquippedWeapon.Value != null;
 
         /// <summary>
-        /// Àåºñ »ı¼º
+        /// ì¥ë¹„ ìƒì„±
         /// </summary>
         public Equipment()
         {
@@ -34,8 +34,8 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ¹«±â ÀåÂø
-        /// ±âÁ¸ ¹«±â°¡ ÀÖÀ¸¸é ¸ÕÀú ÇØÁ¦
+        /// ë¬´ê¸° ì¥ì°©
+        /// ê¸°ì¡´ ë¬´ê¸°ê°€ ìˆìœ¼ë©´ ë¨¼ì € í•´ì œ
         /// </summary>
         public void EquipWeapon(Weapon weapon)
         {
@@ -45,30 +45,30 @@ namespace Domain.Entities
                 return;
             }
 
-            // ±âÁ¸ ¹«±â ÇØÁ¦
+            // ê¸°ì¡´ ë¬´ê¸° í•´ì œ
             UnequipWeapon();
 
-            // »õ ¹«±â ÀåÂø
+            // ìƒˆ ë¬´ê¸° ì¥ì°©
             EquippedWeapon.Value = weapon;
             AdditionalAttack.Value = weapon.AttackPower;
 
-            Debug.Log($"[Equipment] ÀåÂøµÊ: {weapon.ItemName} (+{weapon.AttackPower} °ø°İ·Â)");
+            Debug.Log($"[Equipment] ì¥ì°©ë¨: {weapon.ItemName} (+{weapon.AttackPower} ê³µê²©ë ¥)");
         }
 
         /// <summary>
-        /// ¹«±â ÇØÁ¦
+        /// ë¬´ê¸° í•´ì œ
         /// </summary>
         public void UnequipWeapon()
         {
             EquippedWeapon.Value = null;
             AdditionalAttack.Value = 0;
 
-            Debug.Log("[Equipment] ¹«±â ÇØÁ¦µÊ");
+            Debug.Log("[Equipment] ë¬´ê¸° í•´ì œë¨");
         }
 
         /// <summary>
-        /// ÃÑ °ø°İ·Â °è»ê
-        /// ±âº» °ø°İ·Â + ¹«±â °ø°İ·Â
+        /// ì´ ê³µê²©ë ¥ ê³„ì‚°
+        /// ê¸°ë³¸ ê³µê²©ë ¥ + ë¬´ê¸° ê³µê²©ë ¥
         /// </summary>
         public int GetTotalAttack(int baseAttack)
         {
@@ -76,7 +76,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ÇöÀç ÀåÂø ¹«±âÀÇ Ä¡¸íÅ¸À² ¹İÈ¯
+        /// í˜„ì¬ ì¥ì°© ë¬´ê¸°ì˜ ì¹˜ëª…íƒ€ìœ¨ ë°˜í™˜
         /// </summary>
         public float GetCriticalChance()
         {

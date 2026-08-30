@@ -3,33 +3,33 @@ using Domain.Entities;
 namespace Domain.Interfaces
 {
     /// <summary>
-    /// ÀÎÅÍÆäÀÌ½º
-    /// ÀÎº¥Åä¸® ¹× Àåºñ ÀúÀå ¹× ·Îµå ±â´É Á¤ÀÇ
-    /// ±¸ÇöÃ¼: InventoryRepository
+    /// ì¸í„°í˜ì´ìŠ¤
+    /// ì¸ë²¤í† ë¦¬ ë° ì¥ë¹„ ì €ì¥ ë° ë¡œë“œ ê¸°ëŠ¥ ì •ì˜
+    /// êµ¬í˜„ì²´: InventoryRepository
     /// </summary>
     public interface IInventoryRepository
     {
         /// <summary>
-        /// ÀÎº¥Åä¸® ÀúÀå
-        /// ¸ğµç ¾ÆÀÌÅÛ Á¤º¸ ÀúÀå
+        /// ì¸ë²¤í† ë¦¬ ì €ì¥
+        /// ëª¨ë“  ì•„ì´í…œ ì •ë³´ ì €ì¥
         /// </summary>
         void SaveInventory(Inventory inventory);
 
         /// <summary>
-        /// ÀÎº¥Åä¸® ·Îµå
-        /// ÀúÀåµÈ ¾ÆÀÌÅÛ º¹¿ø
+        /// ì¸ë²¤í† ë¦¬ ë¡œë“œ
+        /// ì €ì¥ëœ ì•„ì´í…œ ë³µì›
         /// </summary>
         Inventory LoadInventory();
 
         /// <summary>
-        /// Àåºñ ÀúÀå
-        /// ÇöÀç ÀåÂø ¹«±â Á¤º¸ ÀúÀå
+        /// ì¥ë¹„ ì €ì¥
+        /// í˜„ì¬ ì¥ì°© ë¬´ê¸° ì •ë³´ ì €ì¥
         /// </summary>
         void SaveEquipment(Equipment equipment);
 
         /// <summary>
-        /// Àåºñ ·Îµå
-        /// ÀúÀåµÈ ÀåÂø ¹«±â º¹¿ø
+        /// ì¥ë¹„ ë¡œë“œ
+        /// ì €ì¥ëœ ì¥ì°© ë¬´ê¸° ë³µì›
         /// </summary>
         Equipment LoadEquipment();
     }

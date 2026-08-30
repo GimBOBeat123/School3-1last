@@ -5,25 +5,25 @@ using UnityEngine;
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// ¾ÆÀÌÅÛ 20°³ ½½·Ô °ü¸®
+    /// ë„ë©”ì¸
+    /// ì•„ì´í…œ 20ê°œ ìŠ¬ë¡¯ ê´€ë¦¬
     /// </summary>
     public class Inventory
     {
         /// <summary>
-        /// ÀÎº¥Åä¸® ½½·Ô °³¼ö
+        /// ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ ê°œìˆ˜
         /// </summary>
         public const int INVENTORY_SIZE = 20;
 
         private List<InventorySlot> slots = new();
 
         /// <summary>
-        /// ÀÎº¥Åä¸® ½½·Ô (¹İÀÀÇü)
+        /// ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ (ë°˜ì‘í˜•)
         /// </summary>
         public ReactiveCollection<InventorySlot> Slots { get; private set; } = new();
 
         /// <summary>
-        /// ÇöÀç ¾ÆÀÌÅÛ °³¼ö
+        /// í˜„ì¬ ì•„ì´í…œ ê°œìˆ˜
         /// </summary>
         public int ItemCount
         {
@@ -38,8 +38,8 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ÀÎº¥Åä¸® »ı¼º
-        /// 20°³ ºó ½½·Ô ÃÊ±âÈ­
+        /// ì¸ë²¤í† ë¦¬ ìƒì„±
+        /// 20ê°œ ë¹ˆ ìŠ¬ë¡¯ ì´ˆê¸°í™”
         /// </summary>
         public Inventory()
         {
@@ -50,11 +50,11 @@ namespace Domain.Entities
                 Slots.Add(slot);
             }
 
-            Debug.Log($"[Inventory] {INVENTORY_SIZE}°³ ½½·ÔÀ¸·Î ÃÊ±âÈ­µÊ");
+            Debug.Log($"[Inventory] {INVENTORY_SIZE}ê°œ ìŠ¬ë¡¯ìœ¼ë¡œ ì´ˆê¸°í™”ë¨");
         }
 
         /// <summary>
-        /// Ã¹ ¹øÂ° ºó ½½·Ô Ã£±â
+        /// ì²« ë²ˆì§¸ ë¹ˆ ìŠ¬ë¡¯ ì°¾ê¸°
         /// </summary>
         public InventorySlot FindEmptySlot()
         {
@@ -67,8 +67,8 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ¾ÆÀÌÅÛ Ãß°¡
-        /// ºó ½½·Ô¿¡ ¾ÆÀÌÅÛ ÀúÀå
+        /// ì•„ì´í…œ ì¶”ê°€
+        /// ë¹ˆ ìŠ¬ë¡¯ì— ì•„ì´í…œ ì €ì¥
         /// </summary>
         public bool AddItem(Item item)
         {
@@ -78,17 +78,17 @@ namespace Domain.Entities
             var emptySlot = FindEmptySlot();
             if (emptySlot == null)
             {
-                Debug.LogWarning("[Inventory] ºñ¾îÀÖ´Â ½½·Ô ¾øÀ½!");
+                Debug.LogWarning("[Inventory] ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ ì—†ìŒ!");
                 return false;
             }
 
             emptySlot.SetItem(item);
-            Debug.Log($"[Inventory] ¾ÆÀÌÅÛ Ãß°¡µÊ: {item.ItemName}");
+            Debug.Log($"[Inventory] ì•„ì´í…œ ì¶”ê°€ë¨: {item.ItemName}");
             return true;
         }
 
         /// <summary>
-        /// ½½·Ô¿¡¼­ ¾ÆÀÌÅÛ Á¦°Å
+        /// ìŠ¬ë¡¯ì—ì„œ ì•„ì´í…œ ì œê±°
         /// </summary>
         public Item RemoveItemFromSlot(int slotIndex)
         {
@@ -101,7 +101,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// µÎ ½½·Ô ±³È¯
+        /// ë‘ ìŠ¬ë¡¯ êµí™˜
         /// </summary>
         public bool SwapSlots(int fromIndex, int toIndex)
         {
@@ -114,14 +114,14 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ÀÚµ¿ Á¤·Ä
-        /// ¸ğµç ¾ÆÀÌÅÛÀ» ¾ÕÀ¸·Î Á¤·Ä
+        /// ìë™ ì •ë ¬
+        /// ëª¨ë“  ì•„ì´í…œì„ ì•ìœ¼ë¡œ ì •ë ¬
         /// </summary>
         public void AutoArrange()
         {
             var items = new List<Item>();
 
-            // ¸ğµç ¾ÆÀÌÅÛ ¼öÁı
+            // ëª¨ë“  ì•„ì´í…œ ìˆ˜ì§‘
             foreach (var slot in slots)
             {
                 if (!slot.IsEmpty)
@@ -129,17 +129,17 @@ namespace Domain.Entities
                 slot.Clear();
             }
 
-            // ¾ÕºÎÅÍ ´Ù½Ã ¹èÄ¡
+            // ì•ë¶€í„° ë‹¤ì‹œ ë°°ì¹˜
             for (int i = 0; i < items.Count && i < slots.Count; i++)
             {
                 slots[i].SetItem(items[i]);
             }
 
-            Debug.Log($"[Inventory] {items.Count}°³ ¾ÆÀÌÅÛ Á¤·ÄµÊ");
+            Debug.Log($"[Inventory] {items.Count}ê°œ ì•„ì´í…œ ì •ë ¬ë¨");
         }
 
         /// <summary>
-        /// ¹«±â ID·Î Ã£±â
+        /// ë¬´ê¸° IDë¡œ ì°¾ê¸°
         /// </summary>
         public InventorySlot FindWeapon(string weaponId)
         {
@@ -152,7 +152,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ¸ğµç ¹«±â ¹İÈ¯
+        /// ëª¨ë“  ë¬´ê¸° ë°˜í™˜
         /// </summary>
         public List<Weapon> GetAllWeapons()
         {
@@ -166,7 +166,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// °¡Àå °­ÇÑ ¹«±â ¹İÈ¯
+        /// ê°€ì¥ ê°•í•œ ë¬´ê¸° ë°˜í™˜
         /// </summary>
         public Weapon GetBestWeapon()
         {
@@ -187,7 +187,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ÀÎº¥Åä¸® ºñ¿ì±â
+        /// ì¸ë²¤í† ë¦¬ ë¹„ìš°ê¸°
         /// </summary>
         public void Clear()
         {
@@ -196,7 +196,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// Æ¯Á¤ ¾ÆÀÌÅÛ °³¼ö ¹İÈ¯
+        /// íŠ¹ì • ì•„ì´í…œ ê°œìˆ˜ ë°˜í™˜
         /// </summary>
         public int GetItemCount(string itemId)
         {

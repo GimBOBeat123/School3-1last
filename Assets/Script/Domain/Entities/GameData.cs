@@ -1,24 +1,24 @@
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// °ÔÀÓ ÀúÀå ½Ã ÇÊ¿äÇÑ µ¥ÀÌÅÍ
+    /// ë„ë©”ì¸
+    /// ê²Œì„ ì €ì¥ ì‹œ í•„ìš”í•œ ë°ì´í„°
     /// </summary>
     [System.Serializable]
     public class GameData
     {
         /// <summary>
-        /// ÇöÀç °ø°İ·Â
+        /// í˜„ì¬ ê³µê²©ë ¥
         /// </summary>
         public int Attack;
 
         /// <summary>
-        /// ÇöÀç °ñµå
+        /// í˜„ì¬ ê³¨ë“œ
         /// </summary>
         public int Gold;
 
         /// <summary>
-        /// ÇöÀç ¶ó¿îµå
+        /// í˜„ì¬ ë¼ìš´ë“œ
         /// </summary>
         public int Round;
     }

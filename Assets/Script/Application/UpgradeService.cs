@@ -3,15 +3,15 @@ using Domain.Entities;
 namespace Application
 {
     /// <summary>
-    /// ¸ğµ¨
-    /// °ñµå¸¦ ¼Ò¸ğÇÏ¿© °ø°İ·Â Áõ°¡
+    /// ëª¨ë¸
+    /// ê³¨ë“œë¥¼ ì†Œëª¨í•˜ì—¬ ê³µê²©ë ¥ ì¦ê°€
     /// </summary>
     public class UpgradeService
     {
         private readonly Hero hero;
 
         /// <summary>
-        /// ¾÷±×·¹ÀÌµå ¼­ºñ½º »ı¼º
+        /// ì—…ê·¸ë ˆì´ë“œ ì„œë¹„ìŠ¤ ìƒì„±
         /// </summary>
         public UpgradeService(Hero hero)
         {
@@ -19,15 +19,15 @@ namespace Application
         }
 
         /// <summary>
-        /// ´ÙÀ½ ¾÷±×·¹ÀÌµå¿¡ ÇÊ¿äÇÑ °ñµå
-        /// ÇöÀç °ø°İ·Â x 10
+        /// ë‹¤ìŒ ì—…ê·¸ë ˆì´ë“œì— í•„ìš”í•œ ê³¨ë“œ
+        /// í˜„ì¬ ê³µê²©ë ¥ x 10
         /// </summary>
         public int UpgradeCost =>
             hero.Attack.Value * 10;
 
         /// <summary>
-        /// °ø°İ·Â ¾÷±×·¹ÀÌµå ½ÇÇà
-        /// °ñµå°¡ ÃæºĞÇÏ¸é °ø°İ·Â 1 Áõ°¡
+        /// ê³µê²©ë ¥ ì—…ê·¸ë ˆì´ë“œ ì‹¤í–‰
+        /// ê³¨ë“œê°€ ì¶©ë¶„í•˜ë©´ ê³µê²©ë ¥ 1 ì¦ê°€
         /// </summary>
         public bool Upgrade()
         {

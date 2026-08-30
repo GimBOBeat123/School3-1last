@@ -3,28 +3,28 @@ using UniRx;
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// ÀÎº¥Åä¸®ÀÇ °³º° ½½·Ô
+    /// ë„ë©”ì¸
+    /// ì¸ë²¤í† ë¦¬ì˜ ê°œë³„ ìŠ¬ë¡¯
     /// </summary>
     public class InventorySlot
     {
         /// <summary>
-        /// ½½·Ô ¹øÈ£
+        /// ìŠ¬ë¡¯ ë²ˆí˜¸
         /// </summary>
         public int SlotIndex { get; set; }
 
         /// <summary>
-        /// ½½·Ô¿¡ µé¾îÀÖ´Â ¾ÆÀÌÅÛ
+        /// ìŠ¬ë¡¯ì— ë“¤ì–´ìˆëŠ” ì•„ì´í…œ
         /// </summary>
         public ReactiveProperty<Item> Item = new();
 
         /// <summary>
-        /// ½½·ÔÀÌ ºñ¾îÀÖ´ÂÁö ¿©ºÎ
+        /// ìŠ¬ë¡¯ì´ ë¹„ì–´ìˆëŠ”ì§€ ì—¬ë¶€
         /// </summary>
         public bool IsEmpty => Item.Value == null;
 
         /// <summary>
-        /// ½½·Ô »ı¼º
+        /// ìŠ¬ë¡¯ ìƒì„±
         /// </summary>
         public InventorySlot(int index)
         {
@@ -33,27 +33,27 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ½½·Ô¿¡ ¾ÆÀÌÅÛ ¼³Á¤
+        /// ìŠ¬ë¡¯ì— ì•„ì´í…œ ì„¤ì •
         /// </summary>
         public void SetItem(Item item) => Item.Value = item;
 
         /// <summary>
-        /// ½½·ÔÀÇ ¾ÆÀÌÅÛ ¹İÈ¯
+        /// ìŠ¬ë¡¯ì˜ ì•„ì´í…œ ë°˜í™˜
         /// </summary>
         public Item GetItem() => Item.Value;
 
         /// <summary>
-        /// ½½·ÔÀÇ ¾ÆÀÌÅÛ Á¦°Å
+        /// ìŠ¬ë¡¯ì˜ ì•„ì´í…œ ì œê±°
         /// </summary>
         public void RemoveItem() => Item.Value = null;
 
         /// <summary>
-        /// ½½·Ô ºñ¿ì±â
+        /// ìŠ¬ë¡¯ ë¹„ìš°ê¸°
         /// </summary>
         public void Clear() => Item.Value = null;
 
         /// <summary>
-        /// ´Ù¸¥ ½½·Ô°ú ¾ÆÀÌÅÛ ±³È¯
+        /// ë‹¤ë¥¸ ìŠ¬ë¡¯ê³¼ ì•„ì´í…œ êµí™˜
         /// </summary>
         public void SwapWith(InventorySlot otherSlot)
         {

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 namespace Presentation.Views
 {
     /// <summary>
-    /// ºä
-    /// °ÔÀÓÀÇ ¶ó¿îµå, °ñµå, °ø°İ·Â, ¸ó½ºÅÍ HP¸¦ È­¸é¿¡ Ç¥½Ã
+    /// ë·°
+    /// ê²Œì„ì˜ ë¼ìš´ë“œ, ê³¨ë“œ, ê³µê²©ë ¥, ëª¬ìŠ¤í„° HPë¥¼ í™”ë©´ì— í‘œì‹œ
     /// </summary>
     public class HUDView : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace Presentation.Views
         [SerializeField] private Slider hpSlider;
 
         /// <summary>
-        /// ¶ó¿îµå ¹øÈ£¸¦ È­¸é¿¡ Ç¥½Ã
+        /// ë¼ìš´ë“œ ë²ˆí˜¸ë¥¼ í™”ë©´ì— í‘œì‹œ
         /// </summary>
         public void SetRound(int value)
         {
@@ -27,7 +27,7 @@ namespace Presentation.Views
         }
 
         /// <summary>
-        /// °ñµå ¼ö·®À» È­¸é¿¡ Ç¥½Ã
+        /// ê³¨ë“œ ìˆ˜ëŸ‰ì„ í™”ë©´ì— í‘œì‹œ
         /// </summary>
         public void SetGold(int value)
         {
@@ -35,7 +35,7 @@ namespace Presentation.Views
         }
 
         /// <summary>
-        /// ¿µ¿õÀÇ °ø°İ·ÂÀ» È­¸é¿¡ Ç¥½Ã
+        /// ì˜ì›…ì˜ ê³µê²©ë ¥ì„ í™”ë©´ì— í‘œì‹œ
         /// </summary>
         public void SetAttack(int value)
         {
@@ -43,7 +43,7 @@ namespace Presentation.Views
         }
 
         /// <summary>
-        /// ¸ó½ºÅÍÀÇ ÇöÀç Ã¼·ÂÀ» È­¸é¿¡ Ç¥½Ã
+        /// ëª¬ìŠ¤í„°ì˜ í˜„ì¬ ì²´ë ¥ì„ í™”ë©´ì— í‘œì‹œ
         /// </summary>
         public void SetMonsterHp(int current, int max)
         {

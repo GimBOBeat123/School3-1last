@@ -7,37 +7,37 @@ using Infrastructure;
 namespace Application
 {
     /// <summary>
-    /// ¸ğµ¨
-    /// ¸ó½ºÅÍ Ã³Ä¡ ½Ã ¹«±â µå·Ó ¹× ½Àµæ
+    /// ëª¨ë¸
+    /// ëª¬ìŠ¤í„° ì²˜ì¹˜ ì‹œ ë¬´ê¸° ë“œë¡­ ë° ìŠµë“
     /// </summary>
     public class ItemDropService
     {
         /// <summary>
-        /// µå·ÓµÈ ¹«±â ¸ñ·Ï
+        /// ë“œë¡­ëœ ë¬´ê¸° ëª©ë¡
         /// </summary>
         public ReactiveCollection<Weapon> DroppedWeapons { get; private set; } = new();
 
         private InventoryService inventoryService;
 
         /// <summary>
-        /// ¾ÆÀÌÅÛ µå·Ó ¼­ºñ½º »ı¼º
+        /// ì•„ì´í…œ ë“œë¡­ ì„œë¹„ìŠ¤ ìƒì„±
         /// </summary>
         public ItemDropService(InventoryService inventoryService)
         {
             this.inventoryService = inventoryService;
-            Debug.Log("[ItemDropService] »ı¼ºµÊ");
+            Debug.Log("[ItemDropService] ìƒì„±ë¨");
         }
 
         /// <summary>
-        /// ¸ó½ºÅÍ Ã³Ä¡ ½Ã ¹«±â µå·Ó
-        /// È®·ü¿¡ µû¶ó ¹«±â °áÁ¤
+        /// ëª¬ìŠ¤í„° ì²˜ì¹˜ ì‹œ ë¬´ê¸° ë“œë¡­
+        /// í™•ë¥ ì— ë”°ë¼ ë¬´ê¸° ê²°ì •
         /// </summary>
         public Weapon DropRandomWeaponOnMonsterKill(Vector3 killPosition)
         {
             float randomValue = Random.value;
             float cumulativeRate = 0f;
 
-            // µå·Ó È®·ü Ã¼Å©
+            // ë“œë¡­ í™•ë¥  ì²´í¬
             foreach (var weaponId in WeaponDatabase.GetAllWeaponIds())
             {
                 var info = WeaponDatabase.GetWeaponInfo(weaponId);
@@ -45,24 +45,24 @@ namespace Application
 
                 if (randomValue <= cumulativeRate)
                 {
-                    // ¹«±â µå·Ó
+                    // ë¬´ê¸° ë“œë¡­
                     var weapon = WeaponDatabase.CreateWeapon(weaponId);
                     weapon.DropPosition = killPosition;
                     DroppedWeapons.Add(weapon);
 
-                    Debug.Log($"[ItemDrop] {killPosition} À§Ä¡¿¡ µå·Ó: {weapon.ItemName} (È®·ü: {info.DropRate * 100:F0}%)");
+                    Debug.Log($"[ItemDrop] {killPosition} ìœ„ì¹˜ì— ë“œë¡­: {weapon.ItemName} (í™•ë¥ : {info.DropRate * 100:F0}%)");
                     return weapon;
                 }
             }
 
-            // µå·Ó ¾ÈµÊ
-            Debug.Log("[ItemDrop] ¹«±â µå·Ó ¾ÈµÊ");
+            // ë“œë¡­ ì•ˆë¨
+            Debug.Log("[ItemDrop] ë¬´ê¸° ë“œë¡­ ì•ˆë¨");
             return null;
         }
 
         /// <summary>
-        /// µå·ÓµÈ ¹«±â ½Àµæ
-        /// ÀÎº¥Åä¸®¿¡ Ãß°¡
+        /// ë“œë¡­ëœ ë¬´ê¸° ìŠµë“
+        /// ì¸ë²¤í† ë¦¬ì— ì¶”ê°€
         /// </summary>
         public bool PickupWeapon(Weapon weapon)
         {
@@ -73,18 +73,18 @@ namespace Application
             if (success)
             {
                 DroppedWeapons.Remove(weapon);
-                Debug.Log($"[ItemDrop] ½ÀµæµÊ: {weapon.ItemName}");
+                Debug.Log($"[ItemDrop] ìŠµë“ë¨: {weapon.ItemName}");
             }
             else
             {
-                Debug.Log("[ItemDrop] ÀÎº¥Åä¸® °¡µæ! ½Àµæ ºÒ°¡");
+                Debug.Log("[ItemDrop] ì¸ë²¤í† ë¦¬ ê°€ë“! ìŠµë“ ë¶ˆê°€");
             }
 
             return success;
         }
 
         /// <summary>
-        /// À§Ä¡ ±â¹İ ±ÙÃ³ µå·Ó ¾ÆÀÌÅÛ °Ë»ö
+        /// ìœ„ì¹˜ ê¸°ë°˜ ê·¼ì²˜ ë“œë¡­ ì•„ì´í…œ ê²€ìƒ‰
         /// </summary>
         public List<Weapon> GetNearbyWeapons(Vector3 position, float range)
         {
@@ -98,7 +98,7 @@ namespace Application
         }
 
         /// <summary>
-        /// µå·ÓµÈ ¸ğµç ¹«±â Á¦°Å
+        /// ë“œë¡­ëœ ëª¨ë“  ë¬´ê¸° ì œê±°
         /// </summary>
         public void ClearDroppedWeapons()
         {

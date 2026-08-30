@@ -3,23 +3,23 @@ using UniRx;
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// ÇÃ·¹ÀÌ¾î°¡ Ã³Ä¡ÇÏ´Â Àû
+    /// ë„ë©”ì¸
+    /// í”Œë ˆì´ì–´ê°€ ì²˜ì¹˜í•˜ëŠ” ì 
     /// </summary>
     public class Monster
     {
         /// <summary>
-        /// ÃÖ´ë Ã¼·Â
+        /// ìµœëŒ€ ì²´ë ¥
         /// </summary>
         public ReactiveProperty<int> MaxHp = new();
 
         /// <summary>
-        /// ÇöÀç Ã¼·Â
+        /// í˜„ì¬ ì²´ë ¥
         /// </summary>
         public ReactiveProperty<int> CurrentHp = new();
 
         /// <summary>
-        /// ¸ó½ºÅÍ »ı¼º
+        /// ëª¬ìŠ¤í„° ìƒì„±
         /// </summary>
         public Monster(int hp)
         {
@@ -28,8 +28,8 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// ÇÇÇØ ¹Ş±â
-        /// Ã¼·ÂÀÌ 0 ÀÌÇÏ¸é Á×À½
+        /// í”¼í•´ ë°›ê¸°
+        /// ì²´ë ¥ì´ 0 ì´í•˜ë©´ ì£½ìŒ
         /// </summary>
         public bool TakeDamage(int damage)
         {

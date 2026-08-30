@@ -6,8 +6,8 @@ using UnityEngine.UI;
 namespace Presentation.Views
 {
     /// <summary>
-    /// ºä
-    /// ÀúÀå°ú ·Îµå ¹öÆ°À» °ü¸®
+    /// ë·°
+    /// ì €ì¥ê³¼ ë¡œë“œ ë²„íŠ¼ì„ ê´€ë¦¬
     /// </summary>
     public class GameControlView : MonoBehaviour
     {
@@ -18,12 +18,12 @@ namespace Presentation.Views
         private readonly Subject<Unit> loadClicked = new();
 
         /// <summary>
-        /// ÀúÀå ¹öÆ° Å¬¸¯ ÀÌº¥Æ®¸¦ ¹İÈ¯
+        /// ì €ì¥ ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ë¥¼ ë°˜í™˜
         /// </summary>
         public IObservable<Unit> OnSaveClicked => saveClicked;
 
         /// <summary>
-        /// ·Îµå ¹öÆ° Å¬¸¯ ÀÌº¥Æ®¸¦ ¹İÈ¯
+        /// ë¡œë“œ ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ë¥¼ ë°˜í™˜
         /// </summary>
         public IObservable<Unit> OnLoadClicked => loadClicked;
 

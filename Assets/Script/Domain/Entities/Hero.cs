@@ -3,23 +3,23 @@ using UniRx;
 namespace Domain.Entities
 {
     /// <summary>
-    /// µµ¸ŞÀÎ
-    /// ÇÃ·¹ÀÌ¾î°¡ Á¶ÀÛÇÏ´Â Ä³¸¯ÅÍ
+    /// ë„ë©”ì¸
+    /// í”Œë ˆì´ì–´ê°€ ì¡°ì‘í•˜ëŠ” ìºë¦­í„°
     /// </summary>
     public class Hero
     {
         /// <summary>
-        /// ÇöÀç °ø°İ·Â
+        /// í˜„ì¬ ê³µê²©ë ¥
         /// </summary>
         public ReactiveProperty<int> Attack = new(1);
 
         /// <summary>
-        /// ÇöÀç °ñµå
+        /// í˜„ì¬ ê³¨ë“œ
         /// </summary>
         public ReactiveProperty<int> Gold = new(0);
 
         /// <summary>
-        /// °ø°İ·Â Áõ°¡
+        /// ê³µê²©ë ¥ ì¦ê°€
         /// </summary>
         public void IncreaseAttack(int value)
         {
@@ -27,7 +27,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// °ñµå Áõ°¡
+        /// ê³¨ë“œ ì¦ê°€
         /// </summary>
         public void AddGold(int value)
         {
@@ -35,8 +35,8 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// °ñµå ¼Ò¸ğ
-        /// °ñµå°¡ ÃæºĞÇÏ¸é ¼Ò¸ğÇÏ°í Âü ¹İÈ¯
+        /// ê³¨ë“œ ì†Œëª¨
+        /// ê³¨ë“œê°€ ì¶©ë¶„í•˜ë©´ ì†Œëª¨í•˜ê³  ì°¸ ë°˜í™˜
         /// </summary>
         public bool SpendGold(int value)
         {
@@ -48,7 +48,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// °ø°İ·Â ¼³Á¤
+        /// ê³µê²©ë ¥ ì„¤ì •
         /// </summary>
         public void SetAttack(int value)
         {
@@ -56,7 +56,7 @@ namespace Domain.Entities
         }
 
         /// <summary>
-        /// °ñµå ¼³Á¤
+        /// ê³¨ë“œ ì„¤ì •
         /// </summary>
         public void SetGold(int value)
         {

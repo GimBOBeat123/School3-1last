@@ -3,20 +3,20 @@ using Domain.Entities;
 namespace Domain.Interfaces
 {
     /// <summary>
-    /// ÀÎÅÍÆäÀÌ½º
-    /// °ÔÀÓ µ¥ÀÌÅÍ ÀúÀå ¹× ·Îµå ±â´É Á¤ÀÇ
-    /// ±¸ÇöÃ¼: JsonSaveRepository, CsvSaveRepository (DI·Î ±³Ã¼ °¡´É)
+    /// ì¸í„°í˜ì´ìŠ¤
+    /// ê²Œì„ ë°ì´í„° ì €ì¥ ë° ë¡œë“œ ê¸°ëŠ¥ ì •ì˜
+    /// êµ¬í˜„ì²´: JsonSaveRepository, CsvSaveRepository (DIë¡œ êµì²´ ê°€ëŠ¥)
     /// </summary>
     public interface ISaveRepository
     {
         /// <summary>
-        /// °ÔÀÓ µ¥ÀÌÅÍ ÀúÀå
+        /// ê²Œì„ ë°ì´í„° ì €ì¥
         /// </summary>
         void Save(GameData data);
 
         /// <summary>
-        /// °ÔÀÓ µ¥ÀÌÅÍ ·Îµå
-        /// ÀúÀå ÆÄÀÏÀÌ ¾øÀ¸¸é ±âº»°ª ¹İÈ¯
+        /// ê²Œì„ ë°ì´í„° ë¡œë“œ
+        /// ì €ì¥ íŒŒì¼ì´ ì—†ìœ¼ë©´ ê¸°ë³¸ê°’ ë°˜í™˜
         /// </summary>
         GameData Load();
     }

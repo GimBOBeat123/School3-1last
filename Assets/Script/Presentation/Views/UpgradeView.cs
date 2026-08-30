@@ -6,8 +6,8 @@ using UnityEngine.UI;
 namespace Presentation.Views
 {
     /// <summary>
-    /// ºä
-    /// °ø°İ·ÂÀ» ¾÷±×·¹ÀÌµåÇÏ´Â ¹öÆ°À» °ü¸®
+    /// ë·°
+    /// ê³µê²©ë ¥ì„ ì—…ê·¸ë ˆì´ë“œí•˜ëŠ” ë²„íŠ¼ì„ ê´€ë¦¬
     /// </summary>
     public class UpgradeView : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace Presentation.Views
         private readonly Subject<Unit> upgradeClicked = new();
 
         /// <summary>
-        /// ¾÷±×·¹ÀÌµå ¹öÆ° Å¬¸¯ ÀÌº¥Æ®¸¦ ¹İÈ¯
+        /// ì—…ê·¸ë ˆì´ë“œ ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ë¥¼ ë°˜í™˜
         /// </summary>
         public IObservable<Unit> OnUpgradeClicked =>
             upgradeClicked;

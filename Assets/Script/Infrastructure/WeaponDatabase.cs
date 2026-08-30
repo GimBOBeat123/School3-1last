@@ -5,14 +5,14 @@ using UnityEngine;
 namespace Infrastructure
 {
     /// <summary>
-    /// ÀÎÇÁ¶ó ¹«±â µ¥ÀÌÅÍº£ÀÌ½º
-    /// ¸ğµç ¹«±â Á¤º¸ °ü¸® ¹× »ı¼º
+    /// ì¸í”„ë¼ ë¬´ê¸° ë°ì´í„°ë² ì´ìŠ¤
+    /// ëª¨ë“  ë¬´ê¸° ì •ë³´ ê´€ë¦¬ ë° ìƒì„±
     /// </summary>
     public class WeaponDatabase : MonoBehaviour
     {
         /// <summary>
-        /// ¹«±â Á¤º¸ µñ¼Å³Ê¸®
-        /// ¹«±â 5°³ Á¤º¸ ÀúÀå
+        /// ë¬´ê¸° ì •ë³´ ë”•ì…”ë„ˆë¦¬
+        /// ë¬´ê¸° 5ê°œ ì •ë³´ ì €ì¥
         /// </summary>
         public static readonly Dictionary<string, WeaponInfo> WeaponDatabase_Dict = new()
         {
@@ -20,11 +20,11 @@ namespace Infrastructure
                 "iron_sword",
                 new WeaponInfo(
                     id: "iron_sword",
-                    name: "Ã¶ °Ë",
+                    name: "ì²  ê²€",
                     attackPower: 5,
                     criticalChance: 0.05f,
                     rarity: 0,
-                    description: "±âº» Ã¶·Î ¸¸µç °Ë",
+                    description: "ê¸°ë³¸ ì² ë¡œ ë§Œë“  ê²€",
                     dropRate: 0.30f
                 )
             },
@@ -32,11 +32,11 @@ namespace Infrastructure
                 "steel_sword",
                 new WeaponInfo(
                     id: "steel_sword",
-                    name: "°­Ã¶ °Ë",
+                    name: "ê°•ì²  ê²€",
                     attackPower: 10,
                     criticalChance: 0.10f,
                     rarity: 1,
-                    description: "°­Ã¶·Î °­È­µÈ °Ë",
+                    description: "ê°•ì² ë¡œ ê°•í™”ëœ ê²€",
                     dropRate: 0.25f
                 )
             },
@@ -44,11 +44,11 @@ namespace Infrastructure
                 "gold_sword",
                 new WeaponInfo(
                     id: "gold_sword",
-                    name: "È²±İ °Ë",
+                    name: "í™©ê¸ˆ ê²€",
                     attackPower: 15,
                     criticalChance: 0.15f,
                     rarity: 2,
-                    description: "±ÍÇÑ È²±İÀ¸·Î ¸¸µç °Ë",
+                    description: "ê·€í•œ í™©ê¸ˆìœ¼ë¡œ ë§Œë“  ê²€",
                     dropRate: 0.20f
                 )
             },
@@ -56,11 +56,11 @@ namespace Infrastructure
                 "diamond_sword",
                 new WeaponInfo(
                     id: "diamond_sword",
-                    name: "´ÙÀÌ¾Æ¸óµå °Ë",
+                    name: "ë‹¤ì´ì•„ëª¬ë“œ ê²€",
                     attackPower: 20,
                     criticalChance: 0.20f,
                     rarity: 3,
-                    description: "Àü¼³ÀÇ ´ÙÀÌ¾Æ¸óµå °Ë",
+                    description: "ì „ì„¤ì˜ ë‹¤ì´ì•„ëª¬ë“œ ê²€",
                     dropRate: 0.15f
                 )
             },
@@ -68,19 +68,19 @@ namespace Infrastructure
                 "dragon_sword",
                 new WeaponInfo(
                     id: "dragon_sword",
-                    name: "µå·¡°ï °Ë",
+                    name: "ë“œë˜ê³¤ ê²€",
                     attackPower: 25,
                     criticalChance: 0.25f,
                     rarity: 3,
-                    description: "Àü¼³ÀÇ ¿ëÀ» »ç³ÉÇÑ °Ë",
+                    description: "ì „ì„¤ì˜ ìš©ì„ ì‚¬ëƒ¥í•œ ê²€",
                     dropRate: 0.10f
                 )
             }
         };
 
         /// <summary>
-        /// ¹«±â Á¤º¸ Å¬·¡½º
-        /// ¹«±âÀÇ ¸ğµç µ¥ÀÌÅÍ ÀúÀå
+        /// ë¬´ê¸° ì •ë³´ í´ë˜ìŠ¤
+        /// ë¬´ê¸°ì˜ ëª¨ë“  ë°ì´í„° ì €ì¥
         /// </summary>
         public class WeaponInfo
         {
@@ -93,7 +93,7 @@ namespace Infrastructure
             public float DropRate { get; set; }
 
             /// <summary>
-            /// ¹«±â Á¤º¸ »ı¼º
+            /// ë¬´ê¸° ì •ë³´ ìƒì„±
             /// </summary>
             public WeaponInfo(
                 string id,
@@ -115,14 +115,14 @@ namespace Infrastructure
         }
 
         /// <summary>
-        /// ¹«±â »ı¼º
-        /// ID·Î ¹«±â Á¤º¸¸¦ Ã£¾Æ ¹«±â °´Ã¼ »ı¼º
+        /// ë¬´ê¸° ìƒì„±
+        /// IDë¡œ ë¬´ê¸° ì •ë³´ë¥¼ ì°¾ì•„ ë¬´ê¸° ê°ì²´ ìƒì„±
         /// </summary>
         public static Weapon CreateWeapon(string weaponId)
         {
             if (!WeaponDatabase_Dict.TryGetValue(weaponId, out var info))
             {
-                Debug.LogWarning($"¹«±â ¾øÀ½: {weaponId}");
+                Debug.LogWarning($"ë¬´ê¸° ì—†ìŒ: {weaponId}");
                 return null;
             }
 
@@ -139,8 +139,8 @@ namespace Infrastructure
         }
 
         /// <summary>
-        /// ¹«±â Á¤º¸ Á¶È¸
-        /// ¹«±â Á¤º¸ ¹İÈ¯
+        /// ë¬´ê¸° ì •ë³´ ì¡°íšŒ
+        /// ë¬´ê¸° ì •ë³´ ë°˜í™˜
         /// </summary>
         public static WeaponInfo GetWeaponInfo(string weaponId)
         {
@@ -148,7 +148,7 @@ namespace Infrastructure
         }
 
         /// <summary>
-        /// ¸ğµç ¹«±â ID ¹İÈ¯
+        /// ëª¨ë“  ë¬´ê¸° ID ë°˜í™˜
         /// </summary>
         public static string[] GetAllWeaponIds()
         {

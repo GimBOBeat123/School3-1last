@@ -6,16 +6,16 @@ using UnityEngine;
 namespace Infrastructure
 {
     /// <summary>
-    /// ÀÎÇÁ¶ó JSON ÀúÀå
-    /// °ÔÀÓ µ¥ÀÌÅÍ¸¦ JSON Çü½ÄÀ¸·Î ÀúÀå ¹× ·Îµå
+    /// ì¸í”„ë¼ JSON ì €ì¥
+    /// ê²Œì„ ë°ì´í„°ë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ì €ì¥ ë° ë¡œë“œ
     /// </summary>
     public class JsonSaveRepository : ISaveRepository
     {
         private readonly string path;
 
         /// <summary>
-        /// JSON ÀúÀå¼Ò »ı¼º
-        /// ÀúÀå °æ·Î ¼³Á¤
+        /// JSON ì €ì¥ì†Œ ìƒì„±
+        /// ì €ì¥ ê²½ë¡œ ì„¤ì •
         /// </summary>
         public JsonSaveRepository()
         {
@@ -23,28 +23,28 @@ namespace Infrastructure
         }
 
         /// <summary>
-        /// °ÔÀÓ µ¥ÀÌÅÍ¸¦ JSONÀ¸·Î ÀúÀå
+        /// ê²Œì„ ë°ì´í„°ë¥¼ JSONìœ¼ë¡œ ì €ì¥
         /// </summary>
         public void Save(GameData data)
         {
             string json = JsonUtility.ToJson(data, true);
             File.WriteAllText(path, json);
-            Debug.Log($"ÀúÀå ¿Ï·á\n{json}");
+            Debug.Log($"ì €ì¥ ì™„ë£Œ\n{json}");
         }
 
         /// <summary>
-        /// JSON ÆÄÀÏ¿¡¼­ °ÔÀÓ µ¥ÀÌÅÍ ·Îµå
-        /// ÆÄÀÏÀÌ ¾øÀ¸¸é ±âº»°ª ¹İÈ¯
+        /// JSON íŒŒì¼ì—ì„œ ê²Œì„ ë°ì´í„° ë¡œë“œ
+        /// íŒŒì¼ì´ ì—†ìœ¼ë©´ ê¸°ë³¸ê°’ ë°˜í™˜
         /// </summary>
         public GameData Load()
         {
             if (!File.Exists(path))
             {
-                Debug.Log("ÀúÀå ÆÄÀÏ ¾øÀ½");
+                Debug.Log("ì €ì¥ íŒŒì¼ ì—†ìŒ");
                 return new GameData();
             }
             string json = File.ReadAllText(path);
-            Debug.Log($"·Îµå ¿Ï·á\n{json}");
+            Debug.Log($"ë¡œë“œ ì™„ë£Œ\n{json}");
 
             return JsonUtility.FromJson<GameData>(json);
         }
