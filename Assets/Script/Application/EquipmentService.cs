@@ -1,4 +1,4 @@
-﻿using Application;
+using System;
 using Domain.Entities;
 using UniRx;
 using UnityEngine;
@@ -8,8 +8,9 @@ namespace Application
     /// <summary>
     /// 모델
     /// 무기 장착, 해제, 공격력 계산
+    /// Dispose는 Zenject 컨테이너가 호출 (BindInterfacesAndSelfTo)
     /// </summary>
-    public class EquipmentService
+    public class EquipmentService : IDisposable
     {
         private readonly Hero hero;
         private readonly InventoryService inventoryService;

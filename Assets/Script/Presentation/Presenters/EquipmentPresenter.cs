@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using Application;
 using Presentation.Views;
 using UniRx;
@@ -10,17 +11,18 @@ namespace Presentation.Presenters
     /// <summary>
     /// 프레젠터
     /// 장비 뷰와 서비스 연결
+    /// 생명주기(Initialize/Dispose)는 Zenject 컨테이너가 관리
     /// </summary>
-    public class EquipmentPresenter
+    public class EquipmentPresenter : IInitializable, IDisposable
     {
-        private EquipmentView view;
-        private EquipmentService equipmentService;
-        private ItemDropService itemDropService;
-        private InventoryService inventoryService;
-        private CompositeDisposable disposables = new();
+        private readonly EquipmentView view;
+        private readonly EquipmentService equipmentService;
+        private readonly ItemDropService itemDropService;
+        private readonly InventoryService inventoryService;
 
-        [Inject]
-        public void Construct(
+        private readonly CompositeDisposable disposables = new();
+
+        public EquipmentPresenter(
             EquipmentService equipmentService,
             ItemDropService itemDropService,
             InventoryService inventoryService,
@@ -30,16 +32,12 @@ namespace Presentation.Presenters
             this.itemDropService = itemDropService;
             this.inventoryService = inventoryService;
             this.view = view;
-
-            Debug.Log("[EquipmentPresenter] 주입 완료");
-            Initialize();
         }
 
         /// <summary>
-        /// 프레젠터 초기화
         /// 뷰 설정 및 이벤트 구독
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
             if (view == null)
             {
@@ -227,12 +225,9 @@ namespace Presentation.Presenters
             view.DisplayDroppedItems(droppedWeapons);
         }
 
-        /// <summary>
-        /// 프레젠터 정리
-        /// </summary>
         public void Dispose()
         {
-            disposables?.Dispose();
+            disposables.Dispose();
         }
     }
 }

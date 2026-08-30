@@ -1,31 +1,43 @@
+using System;
 using Application;
 using Presentation.Views;
 using UniRx;
+using Zenject;
 
 namespace Presentation.Presenters
 {
     /// <summary>
-    /// ÇÁ·¹Á¨ÅÍ
-    /// °ÔÀÓ ¿Ï·á Á¶°ÇÀ» °¨½ÃÇÏ°í Å¬¸®¾î ºä Á¦¾î
+    /// í”„ë ˆì  í„°
+    /// ê²Œì„ ì™„ë£Œ ì¡°ê±´ì„ ê°ì‹œí•˜ê³  í´ë¦¬ì–´ ë·° ì œì–´
+    /// ìƒëª…ì£¼ê¸°(Initialize/Dispose)ëŠ” Zenject ì»¨í…Œì´ë„ˆê°€ ê´€ë¦¬
     /// </summary>
-    public class ClearPresenter
+    public class ClearPresenter : IInitializable, IDisposable
     {
-        /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ »ı¼º ¹× ÃÊ±âÈ­
-        /// °ÔÀÓ Å¬¸®¾î ÀÌº¥Æ® ±¸µ¶
-        /// </summary>
-        public ClearPresenter(
-            BattleService battle,
-            ClearView view)
+        private readonly BattleService battle;
+        private readonly ClearView view;
+
+        private readonly CompositeDisposable disposables = new();
+
+        public ClearPresenter(BattleService battle, ClearView view)
         {
-            // °ÔÀÓ Å¬¸®¾î »óÅÂ °¨½Ã
+            this.battle = battle;
+            this.view = view;
+        }
+
+        /// <summary>
+        /// ê²Œì„ í´ë¦¬ì–´ ìƒíƒœ ê°ì‹œ
+        /// </summary>
+        public void Initialize()
+        {
             battle.IsGameClear
-                .Where(x => x)
-                .Subscribe(_ =>
-                {
-                    // Å¬¸®¾î ºä Ç¥½Ã
-                    view.Show();
-                });
+                .Where(cleared => cleared)
+                .Subscribe(_ => view.Show())
+                .AddTo(disposables);
+        }
+
+        public void Dispose()
+        {
+            disposables.Dispose();
         }
     }
 }

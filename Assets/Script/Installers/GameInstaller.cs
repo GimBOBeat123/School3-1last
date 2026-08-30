@@ -1,4 +1,4 @@
-﻿using Application;
+using Application;
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure;
@@ -45,7 +45,8 @@ namespace Installers
             Container.Bind<InventoryService>()
                 .AsSingle();
 
-            Container.Bind<EquipmentService>()
+            // IDisposable 로도 바인딩해 컨테이너가 구독 해제를 보장
+            Container.BindInterfacesAndSelfTo<EquipmentService>()
                 .AsSingle();
 
             Container.Bind<ItemDropService>()
@@ -93,36 +94,16 @@ namespace Installers
             Container.Bind<SaveService>()
                 .AsSingle();
 
-            // 프레젠테이션 계층 - 프레젠터 바인딩 (일반 클래스)
-            // 모든 프레젠터는 Zenject가 자동 생성 및 주입
-            Container.Bind<GamePresenter>()
-                .AsSingle()
-                .NonLazy();
-
-            Container.Bind<UpgradePresenter>()
-                .AsSingle()
-                .NonLazy();
-
-            Container.Bind<SavePresenter>()
-                .AsSingle()
-                .NonLazy();
-
-            Container.Bind<ClearPresenter>()
-                .AsSingle()
-                .NonLazy();
-
-            Container.Bind<InventoryPresenter>()
-                .AsSingle()
-                .NonLazy();
-
-            Container.Bind<EquipmentPresenter>()
-                .AsSingle()
-                .NonLazy();
-
-            // 프레젠테이션 계층 - 러너 바인딩 (일반 클래스)
-            Container.Bind<AutoAttackRunner>()
-                .AsSingle()
-                .NonLazy();
+            // 프레젠테이션 계층 - 프레젠터 / 러너 바인딩 (일반 클래스)
+            // IInitializable / IDisposable 로 바인딩되어 컨테이너가 생명주기를 관리
+            // (Initialize 호출, 컨텍스트 파괴 시 Dispose 호출)
+            Container.BindInterfacesAndSelfTo<GamePresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<UpgradePresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SavePresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ClearPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<InventoryPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EquipmentPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AutoAttackRunner>().AsSingle();
 
             Debug.Log("========== MVP 게임 설치 성공 ==========");
         }

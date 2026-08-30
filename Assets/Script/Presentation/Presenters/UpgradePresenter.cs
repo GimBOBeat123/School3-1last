@@ -1,3 +1,4 @@
+using System;
 using Application;
 using Domain.Entities;
 using Presentation.Views;
@@ -8,18 +9,19 @@ using Zenject;
 namespace Presentation.Presenters
 {
     /// <summary>
-    /// ÇÁ·¹Á¨ÅÍ
-    /// ¾÷±×·¹ÀÌµå ºä¿Í ¼­ºñ½º¸¦ ¿¬°á
+    /// í”„ë ˆì  í„°
+    /// ì—…ê·¸ë ˆì´ë“œ ë·°ì™€ ì„œë¹„ìŠ¤ë¥¼ ì—°ê²°
+    /// ìƒëª…ì£¼ê¸°(Initialize/Dispose)ëŠ” Zenject ì»¨í…Œì´ë„ˆê°€ ê´€ë¦¬
     /// </summary>
-    public class UpgradePresenter
+    public class UpgradePresenter : IInitializable, IDisposable
     {
-        private UpgradeView view;
-        private UpgradeService service;
-        private Hero hero;
-        private CompositeDisposable disposables = new();
+        private readonly UpgradeView view;
+        private readonly UpgradeService service;
+        private readonly Hero hero;
 
-        [Inject]
-        public void Construct(
+        private readonly CompositeDisposable disposables = new();
+
+        public UpgradePresenter(
             UpgradeView view,
             UpgradeService service,
             Hero hero)
@@ -27,94 +29,68 @@ namespace Presentation.Presenters
             this.view = view;
             this.service = service;
             this.hero = hero;
-
-            Debug.Log("[UpgradePresenter] ÁÖÀÔ - ºä: " + (view != null ? "¼º°ø" : "½ÇÆĞ"));
-            Debug.Log("[UpgradePresenter] ÁÖÀÔ - ¼­ºñ½º: " + (service != null ? "¼º°ø" : "½ÇÆĞ"));
-            Debug.Log("[UpgradePresenter] ÁÖÀÔ - ¿µ¿õ: " + (hero != null ? "¼º°ø" : "½ÇÆĞ"));
-            Initialize();
         }
 
         /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ ÃÊ±âÈ­
-        /// ºä ÀÌº¥Æ® ±¸µ¶
+        /// ë·° ì´ë²¤íŠ¸ êµ¬ë…
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
             if (view == null)
             {
-                Debug.LogError("[UpgradePresenter] ºä°¡ ³Î!");
+                Debug.LogError("[UpgradePresenter] ë·°ê°€ ë„!");
                 return;
             }
 
-            Debug.Log("[UpgradePresenter] ÃÊ±âÈ­");
+            Debug.Log("[UpgradePresenter] ì´ˆê¸°í™”");
 
-            // ¾÷±×·¹ÀÌµå ¹öÆ° Å¬¸¯ °¨½Ã
-            if (view.OnUpgradeClicked == null)
-            {
-                Debug.LogError("[UpgradePresenter] ¾÷±×·¹ÀÌµå ¹öÆ° ÀÌº¥Æ®°¡ ³Î!");
-                return;
-            }
-
+            // ì—…ê·¸ë ˆì´ë“œ ë²„íŠ¼ í´ë¦­ ê°ì‹œ
             view.OnUpgradeClicked
-                .Subscribe(_ =>
-                {
-                    OnUpgradeButtonClicked();
-                })
+                .Subscribe(_ => OnUpgradeButtonClicked())
                 .AddTo(disposables);
 
-            Debug.Log("[UpgradePresenter] ¹öÆ° ±¸µ¶ ¿Ï·á");
-
-            // ¿µ¿õ °ø°İ·Â º¯°æ °¨½Ã
+            // ì˜ì›… ê³µê²©ë ¥ ë³€ê²½ ê°ì‹œ
             hero.Attack
-                .Subscribe(attack =>
-                {
-                    Debug.Log($"[UpgradePresenter] ¿µ¿õ °ø°İ·Â: {attack}");
-                })
+                .Subscribe(attack => Debug.Log($"[UpgradePresenter] ì˜ì›… ê³µê²©ë ¥: {attack}"))
                 .AddTo(disposables);
 
-            // ¿µ¿õ °ñµå º¯°æ °¨½Ã
+            // ì˜ì›… ê³¨ë“œ ë³€ê²½ ê°ì‹œ
             hero.Gold
-                .Subscribe(gold =>
-                {
-                    Debug.Log($"[UpgradePresenter] ¿µ¿õ °ñµå: {gold}");
-                })
+                .Subscribe(gold => Debug.Log($"[UpgradePresenter] ì˜ì›… ê³¨ë“œ: {gold}"))
                 .AddTo(disposables);
 
-            Debug.Log("[UpgradePresenter] ¼³Á¤ ¿Ï·á");
+            Debug.Log("[UpgradePresenter] ì„¤ì • ì™„ë£Œ");
         }
 
         /// <summary>
-        /// ¾÷±×·¹ÀÌµå ¹öÆ° Å¬¸¯ Ã³¸®
+        /// ì—…ê·¸ë ˆì´ë“œ ë²„íŠ¼ í´ë¦­ ì²˜ë¦¬
         /// </summary>
         private void OnUpgradeButtonClicked()
         {
-            Debug.Log("========== [UpgradePresenter] ¾÷±×·¹ÀÌµå ¹öÆ° Å¬¸¯! ==========");
+            Debug.Log("========== [UpgradePresenter] ì—…ê·¸ë ˆì´ë“œ ë²„íŠ¼ í´ë¦­! ==========");
 
             int currentAttack = hero.Attack.Value;
             int currentGold = hero.Gold.Value;
             int cost = service.UpgradeCost;
 
-            Debug.Log($"[UpgradePresenter] ¾÷±×·¹ÀÌµå Àü - °ø°İ·Â: {currentAttack}, °ñµå: {currentGold}");
-            Debug.Log($"[UpgradePresenter] ÇÊ¿ä ºñ¿ë: {cost}");
+            Debug.Log($"[UpgradePresenter] ì—…ê·¸ë ˆì´ë“œ ì „ - ê³µê²©ë ¥: {currentAttack}, ê³¨ë“œ: {currentGold}");
+            Debug.Log($"[UpgradePresenter] í•„ìš” ë¹„ìš©: {cost}");
 
             if (currentGold < cost)
             {
-                Debug.Log($"[UpgradePresenter] °ñµå ºÎÁ·! ÇÊ¿ä: {cost}, º¸À¯: {currentGold}");
+                Debug.Log($"[UpgradePresenter] ê³¨ë“œ ë¶€ì¡±! í•„ìš”: {cost}, ë³´ìœ : {currentGold}");
                 return;
             }
 
             bool success = service.Upgrade();
 
-            Debug.Log($"[UpgradePresenter] ¾÷±×·¹ÀÌµå °á°ú: {success}");
-            Debug.Log($"[UpgradePresenter] ¾÷±×·¹ÀÌµå ÈÄ - °ø°İ·Â: {hero.Attack.Value}, °ñµå: {hero.Gold.Value}");
+            Debug.Log($"[UpgradePresenter] ì—…ê·¸ë ˆì´ë“œ ê²°ê³¼: {success}");
+            Debug.Log($"[UpgradePresenter] ì—…ê·¸ë ˆì´ë“œ í›„ - ê³µê²©ë ¥: {hero.Attack.Value}, ê³¨ë“œ: {hero.Gold.Value}");
         }
 
-        /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ Á¤¸®
-        /// </summary>
         public void Dispose()
         {
-            disposables?.Dispose();
+            disposables.Dispose();
         }
     }
 }

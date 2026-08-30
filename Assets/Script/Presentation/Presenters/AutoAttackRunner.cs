@@ -1,3 +1,4 @@
+using System;
 using Application;
 using Presentation.Views;
 using UniRx;
@@ -7,66 +8,45 @@ using Zenject;
 namespace Presentation
 {
     /// <summary>
-    /// ÇÁ·¹Á¨ÅÍ
-    /// 1ÃÊ¸¶´Ù ÀÚµ¿À¸·Î °ø°İ ½ÇÇà
+    /// í”„ë ˆì  í„°
+    /// 1ì´ˆë§ˆë‹¤ ìë™ìœ¼ë¡œ ê³µê²© ì‹¤í–‰
+    /// ìƒëª…ì£¼ê¸°(Initialize/Dispose)ëŠ” Zenject ì»¨í…Œì´ë„ˆê°€ ê´€ë¦¬
     /// </summary>
-    public class AutoAttackRunner
+    public class AutoAttackRunner : IInitializable, IDisposable
     {
-        private BattleService battleService;
-        private SettingsView settingsView;
-        private CompositeDisposable disposables = new();
+        private readonly BattleService battleService;
+        private readonly SettingsView settingsView;
 
-        [Inject]
-        public void Construct(BattleService battleService, SettingsView settingsView)
+        private readonly CompositeDisposable disposables = new();
+
+        public AutoAttackRunner(BattleService battleService, SettingsView settingsView)
         {
             this.battleService = battleService;
             this.settingsView = settingsView;
-
-            Debug.Log("[AutoAttackRunner] ÁÖÀÔ ¿Ï·á");
-            Initialize();
         }
 
         /// <summary>
-        /// ÀÚµ¿ °ø°İ ÃÊ±âÈ­
-        /// Å¸ÀÌ¸Ó ¼³Á¤ ¹× ÇÊÅÍ ±¸¼º
+        /// ìë™ ê³µê²© íƒ€ì´ë¨¸ ì„¤ì •
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
             if (settingsView == null)
             {
-                Debug.LogError("[AutoAttackRunner] ¼³Á¤ ºä°¡ ³Î!");
+                Debug.LogError("[AutoAttackRunner] ì„¤ì • ë·°ê°€ ë„!");
                 return;
             }
 
-            Debug.Log("[AutoAttackRunner] ÃÊ±âÈ­");
-
-            // 1ÃÊ¸¶´Ù °ø°İ ½ÇÇà (Åä±Û·Î Á¦¾î)
-            Observable.Interval(System.TimeSpan.FromSeconds(1))
-                .Where(_ =>
-                {
-                    // ¾ÈÀü¼º °Ë»ç
-                    if (battleService == null || settingsView == null)
-                        return false;
-
-                    return !battleService.IsGameClear.Value &&  // °ÔÀÓ Å¬¸®¾î Àü
-                           settingsView.AutoAttackEnabled.Value;  // ÀÚµ¿°ø°İ ÄÑÁü
-                })
-                .Subscribe(_ =>
-                {
-                    battleService.Attack();
-                    Debug.Log("[AutoAttackRunner] °ø°İ!");
-                })
+            // 1ì´ˆë§ˆë‹¤ ê³µê²© ì‹¤í–‰ (í† ê¸€ë¡œ ì œì–´)
+            Observable.Interval(TimeSpan.FromSeconds(1))
+                .Where(_ => !battleService.IsGameClear.Value &&   // ê²Œì„ í´ë¦¬ì–´ ì „
+                            settingsView.AutoAttackEnabled.Value) // ìë™ê³µê²© ì¼œì§
+                .Subscribe(_ => battleService.Attack())
                 .AddTo(disposables);
-
-            Debug.Log("[AutoAttackRunner] ¼³Á¤ ¿Ï·á");
         }
 
-        /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ Á¤¸®
-        /// </summary>
         public void Dispose()
         {
-            disposables?.Dispose();
+            disposables.Dispose();
         }
     }
 }

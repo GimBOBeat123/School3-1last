@@ -1,3 +1,4 @@
+using System;
 using Application;
 using Presentation.Views;
 using UniRx;
@@ -7,106 +8,92 @@ using Zenject;
 namespace Presentation.Presenters
 {
     /// <summary>
-    /// ÇÁ·¹Á¨ÅÍ
-    /// ÀÎº¥Åä¸® ºä¿Í ¼­ºñ½º ¿¬°á
+    /// í”„ë ˆì  í„°
+    /// ì¸ë²¤í† ë¦¬ ë·°ì™€ ì„œë¹„ìŠ¤ ì—°ê²°
+    /// ìƒëª…ì£¼ê¸°(Initialize/Dispose)ëŠ” Zenject ì»¨í…Œì´ë„ˆê°€ ê´€ë¦¬
     /// </summary>
-    public class InventoryPresenter
+    public class InventoryPresenter : IInitializable, IDisposable
     {
-        private InventoryView view;
-        private InventoryService inventoryService;
-        private CompositeDisposable disposables = new();
+        private readonly InventoryView view;
+        private readonly InventoryService inventoryService;
 
-        [Inject]
-        public void Construct(
+        private readonly CompositeDisposable disposables = new();
+
+        public InventoryPresenter(
             InventoryService inventoryService,
             InventoryView view)
         {
             this.inventoryService = inventoryService;
             this.view = view;
-
-            Debug.Log("[InventoryPresenter] ÁÖÀÔ ¿Ï·á");
-            Initialize();
         }
 
         /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ ÃÊ±âÈ­
-        /// ºä ¼³Á¤ ¹× ÀÌº¥Æ® ±¸µ¶
+        /// ë·° ì„¤ì • ë° ì´ë²¤íŠ¸ êµ¬ë…
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
             if (view == null)
             {
-                Debug.LogError("[InventoryPresenter] ºä°¡ ³Î!");
+                Debug.LogError("[InventoryPresenter] ë·°ê°€ ë„!");
                 return;
             }
 
             view.SetPresenter(this);
-            Debug.Log("[InventoryPresenter] ÃÊ±âÈ­");
 
-            // ÀÎº¥Åä¸® ¾ÆÀÌÅÛ °³¼ö º¯°æ °¨½Ã
+            // ì¸ë²¤í† ë¦¬ ì•„ì´í…œ ê°œìˆ˜ ë³€ê²½ ê°ì‹œ
             inventoryService.InventoryCount
-                .Subscribe(count =>
-                {
-                    Debug.Log($"[InventoryPresenter] ¾ÆÀÌÅÛ °³¼ö º¯°æ: {count}");
-                    OnInventoryChanged();
-                })
+                .Subscribe(_ => OnInventoryChanged())
                 .AddTo(disposables);
 
-            // °¢ ½½·Ô ¾ÆÀÌÅÛ º¯°æ °¨½Ã
+            // ê° ìŠ¬ë¡¯ ì•„ì´í…œ ë³€ê²½ ê°ì‹œ
             foreach (var slot in inventoryService.Inventory.Slots)
             {
                 slot.Item
-                    .Subscribe(item =>
-                    {
-                        OnInventoryChanged();
-                    })
+                    .Subscribe(_ => OnInventoryChanged())
                     .AddTo(disposables);
             }
 
             OnInventoryChanged();
-            Debug.Log("[InventoryPresenter] ¼³Á¤ ¿Ï·á");
         }
 
         /// <summary>
-        /// ÀÚµ¿ Á¤·Ä ¹öÆ° Å¬¸¯ Ã³¸®
-        /// ¼öµ¿À¸·Î¸¸ Á¤·Ä ¼öÇà
+        /// ìë™ ì •ë ¬ ë²„íŠ¼ í´ë¦­ ì²˜ë¦¬
+        /// ìˆ˜ë™ìœ¼ë¡œë§Œ ì •ë ¬ ìˆ˜í–‰
         /// </summary>
         public void OnAutoArrangeButtonClicked()
         {
-            Debug.Log("[InventoryPresenter] ÀÚµ¿ Á¤·Ä Å¬¸¯");
+            Debug.Log("[InventoryPresenter] ìë™ ì •ë ¬ í´ë¦­");
 
-            Debug.Log("[Á¤·Ä Àü]");
+            Debug.Log("[ì •ë ¬ ì „]");
+            LogFirstSlots();
+
+            inventoryService.AutoArrangeInventory();
+
+            Debug.Log("[ì •ë ¬ í›„]");
+            LogFirstSlots();
+
+            OnInventoryChanged();
+        }
+
+        /// <summary>
+        /// ë””ë²„ê·¸ìš©: ì•ìª½ 5ê°œ ìŠ¬ë¡¯ ìƒíƒœ ì¶œë ¥
+        /// </summary>
+        private void LogFirstSlots()
+        {
             int index = 0;
             foreach (var slot in inventoryService.Inventory.Slots)
             {
                 if (!slot.IsEmpty)
                 {
-                    Debug.Log($"  ½½·Ô {index}: {slot.Item.Value.ItemName} (°ø°İ·Â: {(slot.Item.Value is Domain.Entities.Weapon w ? w.AttackPower.ToString() : "¾øÀ½")})");
+                    string atk = slot.Item.Value is Domain.Entities.Weapon w ? w.AttackPower.ToString() : "ì—†ìŒ";
+                    Debug.Log($"  ìŠ¬ë¡¯ {index}: {slot.Item.Value.ItemName} (ê³µê²©ë ¥: {atk})");
                 }
-                index++;
-                if (index >= 5) break;
+                if (++index >= 5) break;
             }
-
-            // Á¤·Ä ½ÇÇà
-            inventoryService.AutoArrangeInventory();
-
-            Debug.Log("[Á¤·Ä ÈÄ]");
-            index = 0;
-            foreach (var slot in inventoryService.Inventory.Slots)
-            {
-                if (!slot.IsEmpty)
-                {
-                    Debug.Log($"  ½½·Ô {index}: {slot.Item.Value.ItemName} (°ø°İ·Â: {(slot.Item.Value is Domain.Entities.Weapon w ? w.AttackPower.ToString() : "¾øÀ½")})");
-                }
-                index++;
-                if (index >= 5) break;
-            }
-
-            OnInventoryChanged();
         }
 
         /// <summary>
-        /// ÀÎº¥Åä¸® º¯°æ ½Ã ºä ¾÷µ¥ÀÌÆ®
+        /// ì¸ë²¤í† ë¦¬ ë³€ê²½ ì‹œ ë·° ì—…ë°ì´íŠ¸
         /// </summary>
         private void OnInventoryChanged()
         {
@@ -116,12 +103,9 @@ namespace Presentation.Presenters
             view.UpdateInventoryCount(inventoryService.GetItemCount());
         }
 
-        /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ Á¤¸®
-        /// </summary>
         public void Dispose()
         {
-            disposables?.Dispose();
+            disposables.Dispose();
         }
     }
 }

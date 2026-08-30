@@ -1,3 +1,4 @@
+using System;
 using Application;
 using Domain.Entities;
 using Presentation.Views;
@@ -8,20 +9,20 @@ using Zenject;
 namespace Presentation.Presenters
 {
     /// <summary>
-    /// ÇÁ·¹Á¨ÅÍ
-    /// ÀüÅõ ½Ã½ºÅÛ°ú ¿µ¿õ Á¤º¸¸¦ ºä¿¡ ¹İ¿µ
+    /// í”„ë ˆì  í„°
+    /// ì „íˆ¬ ì‹œìŠ¤í…œê³¼ ì˜ì›… ì •ë³´ë¥¼ ë·°ì— ë°˜ì˜
+    /// ìƒëª…ì£¼ê¸°(Initialize/Dispose)ëŠ” Zenject ì»¨í…Œì´ë„ˆê°€ ê´€ë¦¬
     /// </summary>
-    public class GamePresenter
+    public class GamePresenter : IInitializable, IDisposable
     {
-        private HUDView hudView;
-        private ClearView clearView;
+        private readonly HUDView hudView;
+        private readonly ClearView clearView;
+        private readonly BattleService battleService;
+        private readonly Hero hero;
 
-        private BattleService battleService;
-        private Hero hero;
-        private CompositeDisposable disposables = new();
+        private readonly CompositeDisposable disposables = new();
 
-        [Inject]
-        public void Construct(
+        public GamePresenter(
             HUDView hudView,
             ClearView clearView,
             BattleService battleService,
@@ -31,85 +32,75 @@ namespace Presentation.Presenters
             this.clearView = clearView;
             this.battleService = battleService;
             this.hero = hero;
-
-            Debug.Log("[GamePresenter] ÁÖÀÔ ¿Ï·á");
-            Initialize();
         }
 
         /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ ÃÊ±âÈ­
-        /// ¸ğµç ÀÌº¥Æ® ±¸µ¶ ¼³Á¤
+        /// ëª¨ë“  ì´ë²¤íŠ¸ êµ¬ë… ì„¤ì •
+        /// ì˜¤ë¸Œì íŠ¸ ê·¸ë˜í”„ê°€ ì™„ì„±ëœ ë’¤ Zenjectê°€ í˜¸ì¶œ
         /// </summary>
-        private void Initialize()
+        public void Initialize()
         {
             if (hudView == null || clearView == null)
             {
-                Debug.LogError("[GamePresenter] ºä°¡ ³Î!");
+                Debug.LogError("[GamePresenter] ë·°ê°€ ë„!");
                 return;
             }
 
-            Debug.Log("[GamePresenter] ÃÊ±âÈ­");
+            Debug.Log("[GamePresenter] ì´ˆê¸°í™”");
 
-            // ¶ó¿îµå º¯°æ °¨½Ã
+            // ë¼ìš´ë“œ ë³€ê²½ ê°ì‹œ
             battleService.CurrentRound
                 .Subscribe(round =>
                 {
                     hudView.SetRound(round);
-                    Debug.Log($"[GamePresenter] ¶ó¿îµå: {round}");
+                    Debug.Log($"[GamePresenter] ë¼ìš´ë“œ: {round}");
                 })
                 .AddTo(disposables);
 
-            // ¸ó½ºÅÍ Ã¼·Â º¯°æ °¨½Ã
+            // ëª¬ìŠ¤í„° ì²´ë ¥ ë³€ê²½ ê°ì‹œ
+            // ëª¬ìŠ¤í„°ê°€ êµì²´ë˜ë©´ Switchê°€ ì´ì „ êµ¬ë…ì„ ì •ë¦¬í•´ ëˆ„ì ì„ ë§‰ìŒ
             battleService.CurrentMonster
-                .Where(m => m != null)
-                .Subscribe(monster =>
-                {
-                    monster.CurrentHp
-                        .Subscribe(hp =>
-                        {
-                            hudView.SetMonsterHp(hp, monster.MaxHp.Value);
-                        })
-                        .AddTo(disposables);
-                })
+                .Where(monster => monster != null)
+                .Select(monster => monster.CurrentHp
+                    .Select(currentHp => (currentHp, maxHp: monster.MaxHp.Value)))
+                .Switch()
+                .Subscribe(hp => hudView.SetMonsterHp(hp.currentHp, hp.maxHp))
                 .AddTo(disposables);
 
-            // ¿µ¿õ °ø°İ·Â º¯°æ °¨½Ã
+            // ì˜ì›… ê³µê²©ë ¥ ë³€ê²½ ê°ì‹œ
             hero.Attack
                 .Subscribe(attack =>
                 {
                     hudView.SetAttack(attack);
-                    Debug.Log($"[GamePresenter] °ø°İ·Â: {attack}");
+                    Debug.Log($"[GamePresenter] ê³µê²©ë ¥: {attack}");
                 })
                 .AddTo(disposables);
 
-            // ¿µ¿õ °ñµå º¯°æ °¨½Ã
+            // ì˜ì›… ê³¨ë“œ ë³€ê²½ ê°ì‹œ
             hero.Gold
                 .Subscribe(gold =>
                 {
                     hudView.SetGold(gold);
-                    Debug.Log($"[GamePresenter] °ñµå: {gold}");
+                    Debug.Log($"[GamePresenter] ê³¨ë“œ: {gold}");
                 })
                 .AddTo(disposables);
 
-            // °ÔÀÓ Å¬¸®¾î °¨½Ã
+            // ê²Œì„ í´ë¦¬ì–´ ê°ì‹œ
             battleService.IsGameClear
-                .Where(x => x)
+                .Where(cleared => cleared)
                 .Subscribe(_ =>
                 {
                     clearView.Show();
-                    Debug.Log("[GamePresenter] °ÔÀÓ ¿Ï·á!");
+                    Debug.Log("[GamePresenter] ê²Œì„ ì™„ë£Œ!");
                 })
                 .AddTo(disposables);
 
-            Debug.Log("[GamePresenter] ¼³Á¤ ¿Ï·á");
+            Debug.Log("[GamePresenter] ì„¤ì • ì™„ë£Œ");
         }
 
-        /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ Á¤¸®
-        /// </summary>
         public void Dispose()
         {
-            disposables?.Dispose();
+            disposables.Dispose();
         }
     }
 }

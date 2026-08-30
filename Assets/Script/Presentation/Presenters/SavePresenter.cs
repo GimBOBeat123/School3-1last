@@ -1,52 +1,70 @@
+using System;
 using Application;
 using Presentation.Views;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace Presentation.Presenters
 {
     /// <summary>
-    /// ÇÁ·¹Á¨ÅÍ
-    /// °ÔÀÓ µ¥ÀÌÅÍ ÀúÀå°ú ·Îµå ±â´É Á¦¾î
+    /// í”„ë ˆì  í„°
+    /// ê²Œì„ ë°ì´í„° ì €ì¥ê³¼ ë¡œë“œ ê¸°ëŠ¥ ì œì–´
+    /// ìƒëª…ì£¼ê¸°(Initialize/Dispose)ëŠ” Zenject ì»¨í…Œì´ë„ˆê°€ ê´€ë¦¬
     /// </summary>
-    public class SavePresenter
+    public class SavePresenter : IInitializable, IDisposable
     {
-        /// <summary>
-        /// ÇÁ·¹Á¨ÅÍ »ı¼º ¹× ÃÊ±âÈ­
-        /// ÀúÀå, ·Îµå ¹öÆ° ÀÌº¥Æ® ±¸µ¶
-        /// </summary>
+        private readonly GameControlView view;
+        private readonly SaveService saveService;
+        private readonly BattleService battle;
+
+        private readonly CompositeDisposable disposables = new();
+
         public SavePresenter(
             GameControlView view,
             SaveService saveService,
-            BattleService battle,
-            InventoryService inventoryService,
-            EquipmentService equipmentService)
+            BattleService battle)
         {
-            // ÀúÀå ¹öÆ° Å¬¸¯ Ã³¸®
+            this.view = view;
+            this.saveService = saveService;
+            this.battle = battle;
+        }
+
+        /// <summary>
+        /// ì €ì¥, ë¡œë“œ ë²„íŠ¼ ì´ë²¤íŠ¸ êµ¬ë…
+        /// </summary>
+        public void Initialize()
+        {
+            // ì €ì¥ ë²„íŠ¼ í´ë¦­ ì²˜ë¦¬
             view.OnSaveClicked
                 .Subscribe(_ =>
                 {
-                    Debug.Log("[SavePresenter] ÀúÀå Å¬¸¯");
+                    Debug.Log("[SavePresenter] ì €ì¥ í´ë¦­");
                     saveService.Save();
-                    Debug.Log("[SavePresenter] ÀúÀå ¿Ï·á");
-                });
+                    Debug.Log("[SavePresenter] ì €ì¥ ì™„ë£Œ");
+                })
+                .AddTo(disposables);
 
-            // ·Îµå ¹öÆ° Å¬¸¯ Ã³¸®
+            // ë¡œë“œ ë²„íŠ¼ í´ë¦­ ì²˜ë¦¬
             view.OnLoadClicked
                 .Subscribe(_ =>
                 {
-                    Debug.Log("[SavePresenter] ·Îµå Å¬¸¯");
+                    Debug.Log("[SavePresenter] ë¡œë“œ í´ë¦­");
 
-                    // °ÔÀÓ µ¥ÀÌÅÍ ·Îµå
+                    // ê²Œì„ ë°ì´í„° ë¡œë“œ
                     var data = saveService.Load();
-                    Debug.Log($"[SavePresenter] µ¥ÀÌÅÍ ·Îµå - ¶ó¿îµå: {data.Round}, °ñµå: {data.Gold}");
+                    Debug.Log($"[SavePresenter] ë°ì´í„° ë¡œë“œ - ë¼ìš´ë“œ: {data.Round}, ê³¨ë“œ: {data.Gold}");
 
-                    // ÀüÅõ ½Ã½ºÅÛ º¹±¸
+                    // ì „íˆ¬ ì‹œìŠ¤í…œ ë³µêµ¬
                     battle.Restore(data);
-                    Debug.Log("[SavePresenter] ÀüÅõ ½Ã½ºÅÛ º¹±¸");
+                    Debug.Log("[SavePresenter] ë¡œë“œ ì™„ë£Œ");
+                })
+                .AddTo(disposables);
+        }
 
-                    Debug.Log("[SavePresenter] ·Îµå ¿Ï·á");
-                });
+        public void Dispose()
+        {
+            disposables.Dispose();
         }
     }
 }
